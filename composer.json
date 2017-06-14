@@ -1,5 +1,5 @@
 {
-    "name": "FantasyStudio/EasyPay",
+    "name": "fantasystudio/easypay",
     "description": "Wechat and Alipay payment SDK",
     "keywords": ["weixin", "wechat", "alipay"],
     "type": "project",
