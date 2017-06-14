@@ -1,0 +1,26 @@
+{
+    "name": "FantasyStudio/EasyPay",
+    "description": "Wechat and Alipay payment SDK",
+    "keywords": ["weixin", "wechat", "alipay"],
+    "type": "project",
+    "license": "Apache2",
+    "authors": [
+        {
+            "name": "AndyLee",
+            "email": "leefongyun@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.0",
+        "monolog/monolog": "1.x-dev",
+        "guzzlehttp/guzzle": "~6.2"
+
+    },
+    "autoload": {
+        "psr-4": {
+            "FantasyStudio\\EasyPay\\": "src/"
+        }
+    }
+}
