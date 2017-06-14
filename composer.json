@@ -10,10 +10,9 @@
             "role": "Developer"
         }
     ],
-    "minimum-stability": "stable",
+    "type": "library",
     "require": {
         "php": ">=5.3.0",
-        "monolog/monolog": "1.x-dev",
         "guzzlehttp/guzzle": "~6.2"
 
     },
