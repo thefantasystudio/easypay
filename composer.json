@@ -2,7 +2,6 @@
     "name": "fantasystudio/easypay",
     "description": "Wechat and Alipay payment SDK",
     "keywords": ["weixin", "wechat", "alipay"],
-    "type": "project",
     "license": "Apache2",
     "authors": [
         {
@@ -11,7 +10,6 @@
             "role": "Developer"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.0",
         "monolog/monolog": "1.x-dev",
