@@ -1,3 +1,2 @@
-﻿# demoa
-测试一下
-xz1
+# EasyPay
+微信支付SDK
