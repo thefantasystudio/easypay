@@ -1,9 +1,5 @@
 ## EasyPay
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
-[![Total Downloads][ico-downloads]][link-downloads]
-[![Software License][ico-license]](LICENSE)
-
 轻松集成支付宝，微信支付 到您的业务逻辑中。
 
 
