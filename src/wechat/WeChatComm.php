@@ -30,4 +30,26 @@ interface WeChatComm
      * @return mixed
      */
     public function setApiKey($key);
+
+    /**
+     * 退款
+     * @param string $ca_path;
+     * @param array $order;
+     * @return mixed
+     */
+    public function refundOrder($order, $ca_path);
+    /**
+     * 撤销订单
+     * @param string $ca_path;
+     * @param array $order;
+     * @return mixed
+     */
+    public function reverseOrder($order, $ca_path);
+
+    /**
+     * 查询退款状态
+     * @param $order
+     * @return mixed
+     */
+    public function queryRefundState($order);
 }

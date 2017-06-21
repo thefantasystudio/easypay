@@ -1,19 +1,12 @@
 <?php
-namespace FantasyStudio\EasyPay\WeChat\Native;
+namespace FantasyStudio\EasyPay\WeChat\H5;
 
 use FantasyStudio\EasyPay\Foundation\Foundation;
 use FantasyStudio\EasyPay\Foundation\PaymentComm;
 use FantasyStudio\EasyPay\WeChat\WeChatComm;
 use FantasyStudio\EasyPay\WeChat\WeChatRequest;
 
-/**
- * Class Native 扫码支付
- * @package FantasyStudio\EasyPay\WeChat\Native
- * @version 1.0
- * @copyright FantasyStudio
- * @author AndyLee <leefongyun@gmail.com>
- */
-class Native implements WeChatComm, PaymentComm
+class H5 implements WeChatComm, PaymentComm
 {
     use Foundation;
 
@@ -49,11 +42,16 @@ class Native implements WeChatComm, PaymentComm
      */
     public $refund_query_url = "https://api.mch.weixin.qq.com/pay/refundquery";
 
+    public function queryRefundState($order)
+    {
+        return $this->sendRequest($this->refund_query_url, "POST", $order, "", $this->api_key);
+    }
+    
     public function preProcess()
     {
         $pre_data["appid"] = $this->app_id;
         $pre_data["mch_id"] = $this->mch_id;
-        $pre_data["nonce_str"] = "uBFpfrllIoFxWQnz";//$this->random();
+        $pre_data["nonce_str"] = $this->random();
         return $pre_data;
     }
 
@@ -66,8 +64,8 @@ class Native implements WeChatComm, PaymentComm
         $order = array_merge($pre_data, $data);
 
         $require_field = [
-            "appid", "mch_id", "nonce_str", "body","product_id", "out_trade_no", "total_fee", "spbill_create_ip", "notify_url",
-            "trade_type"
+            "appid", "mch_id", "nonce_str", "body", "out_trade_no", "total_fee", "spbill_create_ip", "notify_url",
+            "trade_type","scene_info"
         ];
 
         foreach ($require_field as $key => $field) {
@@ -75,44 +73,39 @@ class Native implements WeChatComm, PaymentComm
                 throw new \InvalidArgumentException("The {$field} field is required");
             }
         }
-        
         $this->order = $order;
     }
 
     public function sendPaymentRequest()
     {
-        return $this->sendRequest($this->unifiedorder_url, "POST", $this->order, "");
+        return $this->sendRequest($this->unifiedorder_url, "POST", $this->order, "", $this->api_key);
     }
 
     public function queryOrderState($order)
     {
-        return $this->sendRequest($this->orderquery_url, "POST", $order, "");
+        return $this->sendRequest($this->orderquery_url, "POST", $order, "", $this->api_key);
     }
 
     public function refundOrder($order, $ca_path)
     {
-        return $this->sendRequest($this->refund_url, "POST", $order, $ca_path);
+        return $this->sendRequest($this->refund_url, "POST", $order, $ca_path, $this->api_key);
 
     }
 
-    public function queryRefundState($order)
-    {
-        return $this->sendRequest($this->refund_query_url, "POST", $order);
-    }
 
     public function reverseOrder($order, $ca_path)
     {
-        return $this->sendRequest($this->closeorder_url, "POST", $order, $ca_path);
+        return $this->sendRequest($this->closeorder_url, "POST", $order, $ca_path, $this->api_key);
     }
 
-    public function closeOrder($order)
+    public function closeOrder($order, $ca_path)
     {
-        return $this->sendRequest($this->closeorder_url, "POST", $order);
+        return $this->sendRequest($this->closeorder_url, "POST", $order, $ca_path, $this->api_key);
     }
 
     public function refundQuery($order)
     {
-        return $this->sendRequest($this->refundquery_url, "POST", $order, "");
+        return $this->sendRequest($this->refund_query_url, "POST", $order, "", $this->api_key);
     }
 
     public function processNotifyMessage($raw_data)

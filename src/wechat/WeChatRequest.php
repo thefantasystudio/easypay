@@ -2,9 +2,9 @@
 namespace FantasyStudio\EasyPay\WeChat;
 
 use FantasyStudio\EasyPay\Foundation\Foundation;
-use FantasyStudio\EasyPay\Foundation\Response;
+use FantasyStudio\EasyPay\Foundation\Request;
 
-class WeChatRequest implements Response
+class WeChatRequest implements Request
 {
     use Foundation;
 
@@ -49,8 +49,4 @@ class WeChatRequest implements Response
         return $this->share;
     }
 
-    public function getResponseData()
-    {
-
-    }
 }

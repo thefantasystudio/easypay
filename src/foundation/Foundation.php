@@ -1,6 +1,7 @@
 <?php
 namespace FantasyStudio\EasyPay\Foundation;
 
+use FantasyStudio\EasyPay\AliPay\AliPayResponse;
 use FantasyStudio\EasyPay\WeChat\WeChatResponse;
 use \GuzzleHttp\Client;
 
@@ -35,11 +36,10 @@ trait Foundation
      * @param string $method 请求的method
      * @param array  $data 请求数据
      * @param string $ca_path 是否使用证书
-     * @param string $key API key
      * @throws RuntimeException
      * @return object
      */
-    public function sendRequest($url, $method = "POST", $data, $ca_path = "", $key)
+    public function sendRequest($url, $method = "POST", $data, $ca_path = "")
     {
 
         $client = new Client();
@@ -49,25 +49,26 @@ trait Foundation
             $pre = $this->preProcess();
             $query = array_merge($pre, $data);
             $query["sign"] = $this->makeSignature($query, $this->api_key);
-
             $xml = $this->toXML($query);
             $headers = ['body' => $xml, 'Content-Type' => 'text/xml; charset=UTF8'];
             if (!empty($ca_path)) {
                 $headers["cert"] = $ca_path;
             }
             $response = $client->request($method, $url, $headers);
-            return new WeChatResponse($response, $query, $key);
+            return new WeChatResponse($response, $query, $this->api_key);
 
 
         } elseif ($this->gateway == "alipay") {
 
-            $response = $client->request($method, $url, [
-                "query" => $data
+            $query = $this->preProcess();
+            $query["method"] = $this->method;
+            $query["biz_content"] = json_encode($data);
+            $query["sign"] = $this->makeSignature($query, $this->private_key);
+
+            $response = $client->request("POST", $url, [
+                "query" => $query
             ]);
-
-            $body = (string)$response->getBody();
-            $response_data = json_decode($body, true);
-
+            return new AliPayResponse($response, $query, $this->private_key);
         }
 
     }
@@ -153,8 +154,8 @@ trait Foundation
 
         if ($this->gateway == "wechat") {
 
-            $sign = urldecode(http_build_query($param)) . "&key=" . $key;
-            $sign = md5($sign);
+            $sign_str = urldecode(http_build_query($param)) . "&key=" . $key;
+            $sign = md5($sign_str);
 
         } elseif ($this->gateway == "alipay") {
 
@@ -177,7 +178,11 @@ trait Foundation
                 wordwrap($key, 64, "\n", true) .
                 "\n-----END RSA PRIVATE KEY-----";
 
-            openssl_sign($stringToBeSigned, $sign, $res);
+            if ($this->sign_type == "RSA") {
+                openssl_sign($stringToBeSigned, $sign, $res);
+            } else {
+                openssl_sign($stringToBeSigned, $sign, $res, OPENSSL_ALGO_SHA256);
+            }
             $sign = base64_encode($sign);
         }
 
@@ -243,6 +248,24 @@ trait Foundation
         }
     }
 
+    public function checkAliPayNotifyMessage($param, $pub_key)
+    {
+        $sign = $param["sign"];
+        $param["sign"] = null;
+        $param["sign_type"] = null;
+        ksort($param);
+        $query_string = urldecode(http_build_query($param));
+
+        $res = "-----BEGIN PUBLIC KEY-----\n" .
+            wordwrap($pub_key, 64, "\n", true) .
+            "\n-----END PUBLIC KEY-----";
+
+        $result = openssl_verify($query_string, base64_decode($sign), $res);
+        if ($result == 1) {
+            return true;
+        }
+        return false;
+    }
 
     public function get_client_ip()
     {

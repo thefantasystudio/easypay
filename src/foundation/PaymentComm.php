@@ -36,20 +36,4 @@ interface PaymentComm
      */
     public function queryOrderState($data);
 
-    /**
-     * 撤销订单
-     * @param string $ca_path;
-     * @param array $order;
-     * @return mixed
-     */
-    public function reverseOrder($order, $ca_path);
-
-    /**
-     * 退款
-     * @param string $ca_path;
-     * @param array $order;
-     * @return mixed
-     */
-    public function refundOrder($order, $ca_path);
-
 }

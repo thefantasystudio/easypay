@@ -46,6 +46,12 @@ class Pos implements WeChatComm, PaymentComm
      */
     public $reverse_url = "https://api.mch.weixin.qq.com/secapi/pay/reverse";
 
+    /**
+     * 查询退款
+     * @var string
+     */
+    public $refund_query_url = "https://api.mch.weixin.qq.com/pay/refundquery";
+
     public function preProcess()
     {
         $pre_data["appid"] = $this->app_id;
@@ -80,30 +86,33 @@ class Pos implements WeChatComm, PaymentComm
             throw new \InvalidArgumentException("The out_trade_no field is required");
         }
 
-        $order["sign"] = $this->makeSignature($order, $this->api_key);
-
         $this->order = $order;
     }
 
     public function sendPaymentRequest()
     {
-        return $this->sendRequest($this->micropay_url, "POST", $this->order, "", $this->api_key);
+        return $this->sendRequest($this->micropay_url, "POST", $this->order, "");
     }
 
     public function queryOrderState($data)
     {
-        return $this->sendRequest($this->orderquery_url, "POST", $data, "", $this->api_key);
+        return $this->sendRequest($this->orderquery_url, "POST", $data, "");
+    }
+
+    public function queryRefundState($data)
+    {
+        return $this->sendRequest($this->refund_query_url, "POST", $data, "");
     }
 
     public function refundOrder($order, $ca_path)
     {
-        return $this->sendRequest($this->refund_url, "POST", $order, $ca_path, $this->api_key);
+        return $this->sendRequest($this->refund_url, "POST", $order, $ca_path);
     }
 
 
     public function reverseOrder($order, $ca_path)
     {
-        return $this->sendRequest($this->reverse_url, "POST", $order, $ca_path, $this->api_key);
+        return $this->sendRequest($this->reverse_url, "POST", $order, $ca_path);
     }
 
 
