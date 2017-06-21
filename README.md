@@ -1,7 +1,6 @@
-## EasyPay
+# EasyPay
 
 轻松集成支付宝，微信支付 到您的业务逻辑中。
-
 
 
 #### 我该怎么下载安装
@@ -9,8 +8,6 @@
 ```php
 composer require fantasystudio/easypay
 ```
-
-
 
 #### 我想看看一些代码
 
