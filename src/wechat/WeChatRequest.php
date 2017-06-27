@@ -38,7 +38,7 @@ class WeChatRequest implements Request
     public function sayOK()
     {
         $result = [];
-        $result["return_code"] = "return_code";
+        $result["return_code"] = "SUCCESS";
         $result["return_msg"] = "OK";
 
         return $this->toXML($result);
