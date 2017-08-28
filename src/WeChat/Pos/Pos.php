@@ -101,7 +101,7 @@ class Pos implements WeChatComm, PaymentComm
 
     public function queryRefundState($data)
     {
-        return $this->sendRequest($this->refund_query_url, "POST", $data, "");
+        return $this->sendPaymentRequest($this->refund_query_url, "POST", $data, "");
     }
 
     public function refundOrder($order, $ca_path)

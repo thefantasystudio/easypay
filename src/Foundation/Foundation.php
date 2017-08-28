@@ -41,7 +41,6 @@ trait Foundation
      */
     public function sendRequest($url, $method = "POST", $data, $ca_path = "")
     {
-
         $client = new Client();
 
         if ($this->gateway == "wechat") {
