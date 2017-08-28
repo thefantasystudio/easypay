@@ -12,7 +12,7 @@ composer require fantasystudio/easypay
 #### 我想看看一些代码
 
 ```php
-use \FantasyStudio\EasyPay\AliPay\Qr\Qr();
+use \FantasyStudio\EasyPay\AliPay\Qr\Qr;
 
 $qr = new Qr();
 $qr->setAppId("201703300571632");
