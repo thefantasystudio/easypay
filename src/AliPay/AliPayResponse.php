@@ -48,7 +48,8 @@ class AliPayResponse implements Response
             "alipay.trade.refund" => "alipay_trade_refund_response",
             "alipay.trade.cancel" => "alipay_trade_cancel_response",
             "alipay.trade.fastpay.refund.query" => "alipay_trade_fastpay_refund_query_response",
-            "alipay.trade.precreate" => "alipay_trade_precreate_response"
+            "alipay.trade.precreate" => "alipay_trade_precreate_response",
+            "alipay.trade.create" => "alipay_trade_create_response"
         ];
 
         $method = $this->request_data["method"];
