@@ -20,7 +20,7 @@ class JSApi implements AliPayComm, PaymentComm
     public $gateway = "alipay";
     public $postCharset = "UTF-8";
 
-    public $enable_koubei_promo; //是否开启口碑折扣 @see https://open.koubei.com/#/solution?type=codeServer&no=koubei_qrcode_orderdishes
+    public $enable_koubei_promo = false; //是否开启口碑折扣 @see https://open.koubei.com/#/solution?type=codeServer&no=koubei_qrcode_orderdishes
 
     public $gateway_url = "https://openapi.alipay.com/gateway.do";
 
