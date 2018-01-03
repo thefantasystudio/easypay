@@ -20,6 +20,8 @@ class JSApi implements AliPayComm, PaymentComm
     public $gateway = "alipay";
     public $postCharset = "UTF-8";
 
+    public $enable_koubei_promo; //是否开启口碑折扣 @see https://open.koubei.com/#/solution?type=codeServer&no=koubei_qrcode_orderdishes
+
     public $gateway_url = "https://openapi.alipay.com/gateway.do";
 
     public function setSignType($type)
@@ -29,15 +31,20 @@ class JSApi implements AliPayComm, PaymentComm
 
     public function preProcess()
     {
-        return [
+        $arr = [
             "app_id" => $this->app_id,
             "format" => "JSON",
             "charset" => "utf-8",
             "sign_type" => $this->sign_type,
             "timestamp" => date("Y-m-d H:i:s"),
             "version" => "1.0",
-            "notify_url" => $this->notify_url
+            "notify_url" => $this->notify_url,
         ];
+
+        if ($this->enable_koubei_promo == true) {
+            $arr["promo_params"] = "{\"kborder_flag\":\"order\"}";
+        }
+        return $arr;
     }
 
     public function setPublicKey($key)
@@ -103,6 +110,11 @@ class JSApi implements AliPayComm, PaymentComm
     {
         $this->method = "alipay.trade.query";
         return $this->sendRequest($this->gateway_url, "POST", $data, "", $this->private_key);
+    }
+
+    public function enableKoubeiPromo($bool)
+    {
+        $this->enable_koubei_promo = $bool;
     }
 
     public function processNotifyMessage($message)
