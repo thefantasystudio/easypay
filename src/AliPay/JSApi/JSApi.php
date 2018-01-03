@@ -34,7 +34,8 @@ class JSApi implements AliPayComm, PaymentComm
             "charset" => "utf-8",
             "sign_type" => $this->sign_type,
             "timestamp" => date("Y-m-d H:i:s"),
-            "version" => "1.0"
+            "version" => "1.0",
+            "notify_url" => $this->notify_url
         ];
     }
 
