@@ -1,6 +1,7 @@
 <?php
 namespace FantasyStudio\EasyPay\AliPay\JSApi;
 
+use FantasyStudio\EasyPay\AliPay\AliPayRequest;
 use FantasyStudio\EasyPay\AliPay\AliPayComm;
 use FantasyStudio\EasyPay\Foundation\Foundation;
 use FantasyStudio\EasyPay\Foundation\PaymentComm;
@@ -37,6 +38,11 @@ class JSApi implements AliPayComm, PaymentComm
             "version" => "1.0",
             "notify_url" => $this->notify_url
         ];
+    }
+
+    public function setPublicKey($key)
+    {
+        $this->public_key = $key;
     }
 
     public function queryRefundState($order)
@@ -97,5 +103,10 @@ class JSApi implements AliPayComm, PaymentComm
     {
         $this->method = "alipay.trade.query";
         return $this->sendRequest($this->gateway_url, "POST", $data, "", $this->private_key);
+    }
+
+    public function processNotifyMessage($message)
+    {
+        return new AliPayRequest($message, $this->public_key);
     }
 }
