@@ -79,7 +79,7 @@ class JSApi implements AliPayComm, PaymentComm
 
     public function setNotifyUrl($url)
     {
-        $this->notify_url;
+        $this->notify_url = $url;
     }
 
     public function setPrivateKey($content)
