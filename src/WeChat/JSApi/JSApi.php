@@ -60,7 +60,7 @@ class JSApi implements WeChatComm, PaymentComm
 
         $require_field = [
             "appid", "mch_id", "nonce_str", "body", "out_trade_no", "total_fee", "spbill_create_ip", "notify_url",
-            "trade_type", "openid"
+            "trade_type"
         ];
 
         foreach ($require_field as $key => $field) {
