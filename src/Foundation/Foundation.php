@@ -1,4 +1,5 @@
 <?php
+
 namespace FantasyStudio\EasyPay\Foundation;
 
 use FantasyStudio\EasyPay\AliPay\AliPayResponse;
@@ -250,6 +251,7 @@ trait Foundation
     public function checkAliPayNotifyMessage($param, $pub_key)
     {
         $sign = $param["sign"];
+        $type = $param["sign_type"];
         $param["sign"] = null;
         $param["sign_type"] = null;
         ksort($param);
@@ -259,7 +261,11 @@ trait Foundation
             wordwrap($pub_key, 64, "\n", true) .
             "\n-----END PUBLIC KEY-----";
 
-        $result = openssl_verify($query_string, base64_decode($sign), $res);
+        if ($type == "RSA") {
+            $result = openssl_verify($query_string, base64_decode($sign), $res);
+        } else {
+            $result = openssl_verify($query_string, base64_decode($sign), $res, OPENSSL_ALGO_SHA256);
+        }
         if ($result == 1) {
             return true;
         }
