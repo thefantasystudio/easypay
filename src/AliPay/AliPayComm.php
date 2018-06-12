@@ -39,5 +39,12 @@ interface AliPayComm
      */
     public function reverseOrder($order);
 
+    /**
+     * 设置支付宝网关上层基础数据
+     * @param $data
+     * @return mixed
+     */
+    public function setBaseData($data);
+
 //    public function queryRefundState($order);
 }

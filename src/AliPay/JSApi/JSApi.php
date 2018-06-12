@@ -16,6 +16,7 @@ class JSApi implements AliPayComm, PaymentComm
     public $notify_url;
     public $sign_type;
     public $order;
+    public $base;
     public $method;
     public $gateway = "alipay";
     public $postCharset = "UTF-8";
@@ -29,9 +30,14 @@ class JSApi implements AliPayComm, PaymentComm
         $this->sign_type = $type;
     }
 
+    public function setBaseData($data)
+    {
+        $this->base = $data;
+    }
+
     public function preProcess()
     {
-        $arr = [
+        $arr = array_merge([
             "app_id" => $this->app_id,
             "format" => "JSON",
             "charset" => "utf-8",
@@ -39,7 +45,7 @@ class JSApi implements AliPayComm, PaymentComm
             "timestamp" => date("Y-m-d H:i:s"),
             "version" => "1.0",
             "notify_url" => $this->notify_url,
-        ];
+        ], $this->base);
 
         if ($this->enable_koubei_promo == true) {
             $arr["promo_params"] = "{\"kborder_flag\":\"order\"}";

@@ -18,6 +18,7 @@ class Qr implements AliPayComm, PaymentComm
     public $sign_type;
     public $order;
     public $method;
+    public $base;
     public $gateway = "alipay";
     public $postCharset = "UTF-8";
 
@@ -28,16 +29,22 @@ class Qr implements AliPayComm, PaymentComm
         $this->sign_type = $type;
     }
 
+    public function setBaseData($data)
+    {
+        $this->base = $data;
+    }
+
+
     public function preProcess()
     {
-        $query_params = [
+        $query_params = array_merge([
             "app_id" => $this->app_id,
             "format" => "JSON",
             "charset" => "utf-8",
             "sign_type" => $this->sign_type,
             "timestamp" => date("Y-m-d H:i:s"),
             "version" => "1.0"
-        ];
+        ], $this->base);
 
         if (!empty($this->notify_url)) {
             $query_params["notify_url"] = $this->notify_url;

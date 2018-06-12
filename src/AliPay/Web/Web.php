@@ -22,11 +22,24 @@ class Web implements AliPayComm, PaymentComm
     private $private_key;
     public $notify_url;
     public $order;
+    public $sign_type;
+    public $base;
     public $gateway = "alipay";
     public $postCharset = "UTF-8";
 
 
     public $gateway_url = "https://openapi.alipay.com/gateway.do";
+
+
+    public function setBaseData($data)
+    {
+        $this->base = $data;
+    }
+
+    public function setSignType($type)
+    {
+        $this->sign_type = $type;
+    }
 
     public function preProcess()
     {
@@ -36,9 +49,11 @@ class Web implements AliPayComm, PaymentComm
         $pre_order["charset"] = "utf-8"; //TODO 仅支持utf8
         $pre_order["timestamp"] = date("Y-m-d H:i:s");
         $pre_order["version"] = "1.0";
-        $pre_order["sign_type"] = "RSA";
+        $pre_order["sign_type"] = $this->sign_type;
 
-        return $pre_order;
+        $base = $this->base;
+
+        return array_merge($pre_order, $base);
     }
 
 

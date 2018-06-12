@@ -16,6 +16,7 @@ class Pos implements AliPayComm, PaymentComm
     public $sign_type;
     public $order;
     public $method;
+    public $base;
     public $gateway = "alipay";
     public $postCharset = "UTF-8";
 
@@ -26,16 +27,21 @@ class Pos implements AliPayComm, PaymentComm
         $this->sign_type = $type;
     }
 
+    public function setBaseData($data)
+    {
+        $this->base = $data;
+    }
+
     public function preProcess()
     {
-        return [
+        return array_merge([
             "app_id" => $this->app_id,
             "format" => "JSON",
             "charset" => "utf-8",
             "sign_type" => $this->sign_type,
             "timestamp" => date("Y-m-d H:i:s"),
             "version" => "1.0"
-        ];
+        ], $this->base);
     }
 
     public function queryRefundState($order)
