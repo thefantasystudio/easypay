@@ -23,7 +23,7 @@ class Web implements AliPayComm, PaymentComm
     public $notify_url;
     public $order;
     public $sign_type;
-    public $base;
+    public $base = [];
     public $gateway = "alipay";
     public $postCharset = "UTF-8";
 

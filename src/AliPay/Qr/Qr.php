@@ -18,7 +18,7 @@ class Qr implements AliPayComm, PaymentComm
     public $sign_type;
     public $order;
     public $method;
-    public $base;
+    public $base = [];
     public $gateway = "alipay";
     public $postCharset = "UTF-8";
 

@@ -16,7 +16,7 @@ class JSApi implements AliPayComm, PaymentComm
     public $notify_url;
     public $sign_type;
     public $order;
-    public $base;
+    public $base = [];
     public $method;
     public $gateway = "alipay";
     public $postCharset = "UTF-8";
