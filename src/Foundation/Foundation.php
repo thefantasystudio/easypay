@@ -37,7 +37,7 @@ trait Foundation
      * @param string $method 请求的method
      * @param array  $data 请求数据
      * @param string $ca_path 是否使用证书
-     * @throws RuntimeException
+     * @throws
      * @return object
      */
     public function sendRequest($url, $method = "POST", $data, $ca_path = "")
@@ -64,7 +64,6 @@ trait Foundation
             $query["method"] = $this->method;
             $query["biz_content"] = json_encode($data);
             $query["sign"] = $this->makeSignature($query, $this->private_key);
-
             $response = $client->request("POST", $url, [
                 "query" => $query
             ]);
@@ -157,7 +156,7 @@ trait Foundation
             $sign_str = urldecode(http_build_query($param)) . "&key=" . $key;
             $sign = md5($sign_str);
 
-        } elseif ($this->gateway == "alipay") {
+        } else {
 
             $stringToBeSigned = "";
             $i = 0;

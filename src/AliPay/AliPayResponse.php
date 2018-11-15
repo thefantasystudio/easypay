@@ -17,6 +17,7 @@ class AliPayResponse implements Response
     {
 
         $body = (string)$response->getBody();
+        $this->request_data = $request_data;
         $response_data = json_decode($body, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \RuntimeException("Got an runtime error, can't decoded response data,"
@@ -25,7 +26,6 @@ class AliPayResponse implements Response
         }
 
         $this->response_data = $response_data;
-        $this->request_data = $request_data;
         $this->key = $key;
 
     }
